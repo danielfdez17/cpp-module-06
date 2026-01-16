@@ -56,23 +56,24 @@ fclean: clean
 re: fclean all
 	@echo "$(OK) $(YELLOW)Rebuilt $(NAME)$(RESET)"
 
-run: re
+run:
 	clear
-# 	./$(NAME) 0
-# 	./$(NAME) nan
-# 	./$(NAME) 42.0f
-# 	./$(NAME) c
+	@$(MAKE) re --no-print-directory
+	./$(NAME) 0
+	./$(NAME) nan
+	./$(NAME) 42.024f
+	./$(NAME) c
 	./$(NAME) nan
 	./$(NAME) +inf
 	./$(NAME) -inf
 	./$(NAME) nanf
 	./$(NAME) +inff
 	./$(NAME) -inff
-# 	./$(NAME) 45678
-# 	./$(NAME) 987654.23f
-# 	./$(NAME) 234789.984
-# 	./$(NAME) adsfadsfadf
-# 	./$(NAME) 123afadsF
+	./$(NAME) 45678
+	./$(NAME) 987654.23f
+	./$(NAME) 234789.984
+	./$(NAME) adsfadsfadf
+	./$(NAME) 123afadsF
 
 .PHONY: all obj clean fclean re run
 

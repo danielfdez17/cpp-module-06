@@ -86,17 +86,11 @@ void	ScalarConverter::toInt(double value)
 void	ScalarConverter::toFloat(double value)
 {
 	std::cout << CYAN << "float: " << RESET;
-	if (std::isnan(value))
-		std::cout << static_cast<float>(value) << "f\n";
-	else
-		std::cout << static_cast<float>(value) << ".0f\n";
+	std::cout << static_cast<float>(value) << "f\n";
 }
 void	ScalarConverter::toDouble(double value)
 {
 	std::cout << GREEN << "double: " << RESET;
-	if (std::isnan(value))
-		std::cout << static_cast<double>(value) << "\n";
-	else
-		std::cout << static_cast<double>(value) << ".0\n";
+	std::cout << static_cast<double>(value) << "\n";
 }
 
