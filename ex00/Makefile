@@ -9,8 +9,8 @@ OK = $(GREEN)[OK]$(RESET)
 NAME = convert
 
 # * Compilation
-CC = c++
-CFLAGS = -Wall -Wextra -Werror -std=c++98 -g3 -fsanitize=address
+MYCPP = c++
+MYCPPFLAGS = -Wall -Wextra -Werror -std=c++98 -g3 -fsanitize=address
 
 # * Removal
 RM = rm -rf
@@ -34,10 +34,10 @@ OBJS = $(addprefix $(OBJ_DIR), $(SRCS:.cpp=.o))
 # ! RULES
 $(OBJ_DIR)%.o: $(BUREAUCRAT_DIR)%.cpp
 	@mkdir -p $(OBJ_DIR)
-	@$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
+	@$(MYCPP) $(MYCPPFLAGS) $(INCLUDES) -c $< -o $@
 
 $(NAME): $(OBJS)
-	@$(CC) $(CFLAGS) $(INCLUDES) $(OBJS) -o $(NAME)
+	@$(MYCPP) $(MYCPPFLAGS) $(INCLUDES) $(OBJS) -o $(NAME)
 	@echo "$(OK) $(GREEN)$(NAME)$(RESET)"
 
 all: obj $(NAME)
@@ -56,15 +56,23 @@ fclean: clean
 re: fclean all
 	@echo "$(OK) $(YELLOW)Rebuilt $(NAME)$(RESET)"
 
-run: all
+run: re
 	clear
-	./$(NAME) c
-	./$(NAME) 0
-	./$(NAME) 45678
-	./$(NAME) 987654.23f
-	./$(NAME) 234789.984
-	./$(NAME) adsfadsfadf
-	./$(NAME) 123afadsF
+# 	./$(NAME) 0
+# 	./$(NAME) nan
+# 	./$(NAME) 42.0f
+# 	./$(NAME) c
+	./$(NAME) nan
+	./$(NAME) +inf
+	./$(NAME) -inf
+	./$(NAME) nanf
+	./$(NAME) +inff
+	./$(NAME) -inff
+# 	./$(NAME) 45678
+# 	./$(NAME) 987654.23f
+# 	./$(NAME) 234789.984
+# 	./$(NAME) adsfadsfadf
+# 	./$(NAME) 123afadsF
 
 .PHONY: all obj clean fclean re run
 

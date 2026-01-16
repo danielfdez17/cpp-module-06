@@ -1,6 +1,8 @@
 #include "ScalarConverter.hpp"
-#include "colors.hpp"
-#include <cctype>
+#include "utils.hpp"
+#include <limits.h>
+#include <cmath>
+#include <cstdlib>
 
 ScalarConverter::ScalarConverter() {}
 
@@ -19,46 +21,82 @@ ScalarConverter& ScalarConverter::operator=(const ScalarConverter& copy)
 
 ScalarConverter::~ScalarConverter() {}
 
-void	ScalarConverter::convert(std::string s)
+bool	isPseudo(std::string s)
 {
-	std::cout << YELLOW "Converting '" << s << "' ...\n" RESET;
-	ScalarConverter::toChar(s);
-	ScalarConverter::toInt(s);
-	ScalarConverter::toFloat(s);
-	ScalarConverter::toDouble(s);
-	std::cout << "\n";
+	return s == "nan" || s == "+inf" || s == "-inf"
+		|| s == "nanf" || s == "+inff" || s == "-inff";
 }
 
-void	ScalarConverter::toChar(std::string s)
+void	ScalarConverter::convert(std::string s)
 {
-	(void)s;
-	std::cout << BLUE << __func__ << ": " << RESET;
-	if (s.size() == 1 && isprint(static_cast<char>(s[0])))
+	double	value;
+	std::cout << YELLOW "Converting '" << s << "' ...\n" RESET;
+	// ? if single non-digit character, convert directly to its ASCII value
+	if (s.size() == 0 && !isdigit(s[0]))
 	{
-		std::cout << s[0] << "\n";
+		value = static_cast<double>(s[0]);
+	}
+	else if (isPseudo(s))
+	{
+		value = std::strtod(s.c_str(), NULL);
+	}
+	else if (s.find('.') == std::string::npos)
+	{
+		value = static_cast<double>(std::atoi(s.c_str()));
 	}
 	else
 	{
+		value = std::strtod(s.c_str(), NULL);
+	}
+	ScalarConverter::toChar(value);
+	ScalarConverter::toInt(value);
+	ScalarConverter::toFloat(value);
+	ScalarConverter::toDouble(value);
+	std::cout << "\n";
+}
 
-		std::cout << RED "Unimplemented method\n" RESET;
+void	ScalarConverter::toChar(double value)
+{
+	std::cout << BLUE << "char: " << RESET;
+	if (std::isnan(value) || value < 0 || value > 127)
+	{
+		std::cout << RED "impossible\n" RESET;
+	}
+	else if (!isprint(static_cast<char>(value)))
+	{
+		std::cout << RED "Non displayable\n" RESET;
+	}
+	else
+	{
+		std::cout << "'" << static_cast<char>(value) << "'\n";
 	}
 }
-void	ScalarConverter::toInt(std::string s)
+void	ScalarConverter::toInt(double value)
 {
-	(void)s;
-	std::cout << MAGENTA << __func__ << ": " << RESET;
-	std::cout << RED "Unimplemented method\n" RESET;
+	std::cout << MAGENTA << "int: " << RESET;
+	if (std::isnan(value) || value > INT_MAX || value < INT_MIN)
+	{
+		std::cout << RED "impossible\n" RESET;
+	}
+	else
+	{
+		std::cout << static_cast<int>(value) << "\n";
+	}
 }
-void	ScalarConverter::toFloat(std::string s)
+void	ScalarConverter::toFloat(double value)
 {
-	(void)s;
-	std::cout << CYAN << __func__ << ": " << RESET;
-	std::cout << RED "Unimplemented method\n" RESET;
+	std::cout << CYAN << "float: " << RESET;
+	if (std::isnan(value))
+		std::cout << static_cast<float>(value) << "f\n";
+	else
+		std::cout << static_cast<float>(value) << ".0f\n";
 }
-void	ScalarConverter::toDouble(std::string s)
+void	ScalarConverter::toDouble(double value)
 {
-	(void)s;
-	std::cout << BLUE << __func__ << ": " << RESET;
-	std::cout << RED "Unimplemented method\n" RESET;
+	std::cout << GREEN << "double: " << RESET;
+	if (std::isnan(value))
+		std::cout << static_cast<double>(value) << "\n";
+	else
+		std::cout << static_cast<double>(value) << ".0\n";
 }
 

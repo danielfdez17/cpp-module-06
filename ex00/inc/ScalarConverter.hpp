@@ -1,6 +1,6 @@
 #pragma once
-#ifndef __SCALARCONVERTER__
-#define __SCALARCONVERTER__
+#ifndef __SCALARCONVERTER_HPP__
+#define __SCALARCONVERTER_HPP__
 
 #include <string>
 #include <iostream>
@@ -8,12 +8,13 @@
 class ScalarConverter {
 private:
 
-	static void	toChar(std::string s);
-	static void	toInt(std::string s);
-	static void	toFloat(std::string s);
-	static void	toDouble(std::string s);
-
+	static void	toChar(double value);
+	static void	toInt(double value);
+	static void	toFloat(double value);
+	static void	toDouble(double value);
+	
 public:
+
 	ScalarConverter();
 	ScalarConverter(const ScalarConverter& copy);
 	ScalarConverter& operator=(const ScalarConverter& copy);
@@ -23,4 +24,4 @@ public:
 	
 };
 
-#endif // __SCALARCONVERTER__
+#endif // __SCALARCONVERTER_HPP__
