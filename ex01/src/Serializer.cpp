@@ -22,9 +22,11 @@ Serializer::~Serializer() {}
 // ? reinterpret_cast it is used and no any other one
 uintptr_t	Serializer::serialize(Data *ptr)
 {
+	std::cout << BLUE << __func__ << ": " RESET;
 	return reinterpret_cast<uintptr_t>(ptr);
 }
 Data*		Serializer::deserialize(uintptr_t raw)
 {
+	std::cout << CYAN << __func__ << ": " RESET;
 	return reinterpret_cast<Data*>(raw);
 }
