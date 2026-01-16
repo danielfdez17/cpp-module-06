@@ -36,6 +36,8 @@ void	ScalarConverter::convert(std::string s)
 	{
 		value = static_cast<double>(s[0]);
 	}
+	// ? if this condition is not in the second place, the following condition will always be evaluated
+	// ? and pseudo numbers casts/conversions will be lost
 	else if (isPseudo(s))
 	{
 		value = std::strtod(s.c_str(), NULL);
