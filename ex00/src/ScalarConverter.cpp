@@ -3,6 +3,7 @@
 #include <limits.h>
 #include <cmath>
 #include <cstdlib>
+#include <iomanip>
 
 ScalarConverter::ScalarConverter() {}
 
@@ -93,6 +94,8 @@ void	ScalarConverter::toFloat(double value)
 void	ScalarConverter::toDouble(double value)
 {
 	std::cout << GREEN << "double: " << RESET;
+	int	intValue = (int)value;
+	if (intValue == )
 	std::cout << static_cast<double>(value) << "\n";
 }
 

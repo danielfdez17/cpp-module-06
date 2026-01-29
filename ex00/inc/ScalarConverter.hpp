@@ -8,6 +8,11 @@
 class ScalarConverter {
 private:
 
+	ScalarConverter();
+	ScalarConverter(const ScalarConverter& copy);
+	ScalarConverter& operator=(const ScalarConverter& copy);
+	~ScalarConverter();
+
 	static void	toChar(double value);
 	static void	toInt(double value);
 	static void	toFloat(double value);
@@ -15,11 +20,6 @@ private:
 	
 public:
 
-	ScalarConverter();
-	ScalarConverter(const ScalarConverter& copy);
-	ScalarConverter& operator=(const ScalarConverter& copy);
-	~ScalarConverter();
-	
 	static void convert(std::string s);
 	
 };

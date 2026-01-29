@@ -60,20 +60,20 @@ run:
 	clear
 	@$(MAKE) re --no-print-directory
 	./$(NAME) 0
-	./$(NAME) nan
-	./$(NAME) 42.024f
-	./$(NAME) c
-	./$(NAME) nan
-	./$(NAME) +inf
-	./$(NAME) -inf
-	./$(NAME) nanf
-	./$(NAME) +inff
-	./$(NAME) -inff
-	./$(NAME) 45678
-	./$(NAME) 987654.23f
-	./$(NAME) 234789.984
-	./$(NAME) adsfadsfadf
-	./$(NAME) 123afadsF
+# 	./$(NAME) nan
+# 	./$(NAME) 42.024f
+# 	./$(NAME) c
+# 	./$(NAME) nan
+# 	./$(NAME) +inf
+# 	./$(NAME) -inf
+# 	./$(NAME) nanf
+# 	./$(NAME) +inff
+# 	./$(NAME) -inff
+# 	./$(NAME) 45678
+# 	./$(NAME) 987654.23f
+# 	./$(NAME) 234789.984
+# 	./$(NAME) adsfadsfadf
+# 	./$(NAME) 123afadsF
 
 .PHONY: all obj clean fclean re run
 
