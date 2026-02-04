@@ -5,6 +5,7 @@ int main(void)
 {
 	Data p = {0, 1, "potato", 23.0};
 	Data *aux;
+	Serializer s;
 	std::cout << GREEN << &p << "\n" RESET;
 	std::cout << YELLOW << reinterpret_cast<uintptr_t>(&p) << "\n" RESET;
 	// printf("%llu\n", (long long)&p);

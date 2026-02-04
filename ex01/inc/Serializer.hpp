@@ -9,7 +9,6 @@
 
 class Serializer {
 private:
-	Data *data;
 	Serializer();
 	Serializer(const Serializer& copy);
 	Serializer& operator=(const Serializer& copy);
