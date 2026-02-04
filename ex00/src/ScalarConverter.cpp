@@ -30,7 +30,19 @@ static bool	isPseudo(std::string s)
 
 static int countPrecission(std::string s)
 {
-	return s.find('.');
+	size_t	dotPos = s.find('.');
+	size_t	i;
+	if (dotPos == std::string::npos)
+		return 0;
+	for (i = dotPos + 1; i < s.size() - 1; i++)
+		if (!isdigit(s[i]))
+		{
+			if ((i != dotPos + 1))
+				--i;
+			break;
+		}
+	std::cout << YELLOW << "Precison: " << i - dotPos << "\n";
+	return (int)(i - dotPos);
 }
 
 void	ScalarConverter::convert(std::string s)
@@ -58,8 +70,8 @@ void	ScalarConverter::convert(std::string s)
 	}
 	ScalarConverter::toChar(value);
 	ScalarConverter::toInt(value);
-	ScalarConverter::toFloat(value);
-	ScalarConverter::toDouble(value);
+	ScalarConverter::toFloat(value, countPrecission(s));
+	ScalarConverter::toDouble(value, countPrecission(s));
 	std::cout << "\n";
 }
 
@@ -91,24 +103,24 @@ void	ScalarConverter::toInt(double value)
 		std::cout << static_cast<int>(value) << "\n";
 	}
 }
-void	ScalarConverter::toFloat(double value)
+void	ScalarConverter::toFloat(double value, int precision)
 {
 	std::cout << CYAN << "float: " << RESET;
 	int intValue = (int)value;
 	double reminder = value - intValue;
-	// todo
-	// std::cout << std::fixed << std::setprecision();
+	std::cout << std::fixed << std::setprecision(precision);
 	if (reminder == 0.0f)
 		std::cout << static_cast<float>(value) << ".0";
 	else
 		std::cout << static_cast<float>(value);
 	std::cout << "f\n";
 }
-void	ScalarConverter::toDouble(double value)
+void	ScalarConverter::toDouble(double value, int precision)
 {
 	std::cout << GREEN << "double: " << RESET;
 	int intValue = (int)value;
 	double reminder = value - intValue;
+	std::cout << std::fixed << std::setprecision(precision);
 	if (reminder == 0.0)
 		std::cout << static_cast<double>(value) << ".0\n";
 	else

@@ -15,8 +15,8 @@ private:
 
 	static void	toChar(double value);
 	static void	toInt(double value);
-	static void	toFloat(double value);
-	static void	toDouble(double value);
+	static void	toFloat(double value, int precision);
+	static void	toDouble(double value, int precision);
 	
 public:
 
