@@ -22,10 +22,15 @@ ScalarConverter& ScalarConverter::operator=(const ScalarConverter& copy)
 
 ScalarConverter::~ScalarConverter() {}
 
-bool	isPseudo(std::string s)
+static bool	isPseudo(std::string s)
 {
 	return s == "nan" || s == "+inf" || s == "-inf"
 		|| s == "nanf" || s == "+inff" || s == "-inff";
+}
+
+static int countPrecission(std::string s)
+{
+	return s.find('.');
 }
 
 void	ScalarConverter::convert(std::string s)
@@ -33,7 +38,7 @@ void	ScalarConverter::convert(std::string s)
 	double	value;
 	std::cout << YELLOW "Converting '" << s << "' ...\n" RESET;
 	// ? if single non-digit character, convert directly to its ASCII value
-	if (s.size() == 0 && !isdigit(s[0]))
+	if (s.size() == 1 && !isdigit(s[0]))
 	{
 		value = static_cast<double>(s[0]);
 	}
@@ -89,13 +94,24 @@ void	ScalarConverter::toInt(double value)
 void	ScalarConverter::toFloat(double value)
 {
 	std::cout << CYAN << "float: " << RESET;
-	std::cout << static_cast<float>(value) << "f\n";
+	int intValue = (int)value;
+	double reminder = value - intValue;
+	// todo
+	// std::cout << std::fixed << std::setprecision();
+	if (reminder == 0.0f)
+		std::cout << static_cast<float>(value) << ".0";
+	else
+		std::cout << static_cast<float>(value);
+	std::cout << "f\n";
 }
 void	ScalarConverter::toDouble(double value)
 {
 	std::cout << GREEN << "double: " << RESET;
-	int	intValue = (int)value;
-	if (intValue == )
-	std::cout << static_cast<double>(value) << "\n";
+	int intValue = (int)value;
+	double reminder = value - intValue;
+	if (reminder == 0.0)
+		std::cout << static_cast<double>(value) << ".0\n";
+	else
+		std::cout << static_cast<double>(value) << "\n";
 }
 

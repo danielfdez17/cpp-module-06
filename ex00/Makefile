@@ -59,7 +59,8 @@ re: fclean all
 run:
 	clear
 	@$(MAKE) re --no-print-directory
-	./$(NAME) 0
+# 	./$(NAME) 0
+# 	./$(NAME) 125.50
 # 	./$(NAME) nan
 # 	./$(NAME) 42.024f
 # 	./$(NAME) c
@@ -70,7 +71,7 @@ run:
 # 	./$(NAME) +inff
 # 	./$(NAME) -inff
 # 	./$(NAME) 45678
-# 	./$(NAME) 987654.23f
+	./$(NAME) 987654.23f
 # 	./$(NAME) 234789.984
 # 	./$(NAME) adsfadsfadf
 # 	./$(NAME) 123afadsF
