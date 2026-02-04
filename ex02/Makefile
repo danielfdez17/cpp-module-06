@@ -22,21 +22,16 @@ INCLUDES = -I ./inc/
 OBJ_DIR = ./obj/
 
 # * Sources files
-BUREAUCRAT_DIR = ./src/
-BUREAUCRAT_SRCS = 	main.cpp
-# Base.cpp \
-# 					A.cpp \
-# 					B.cpp \
-# 					C.cpp \
-# 					main.cpp
+IDENTIFY_DIR = ./src/
+IDENTIFY_SRCS = 	main.cpp
 
-SRCS = $(BUREAUCRAT_SRCS)
+SRCS = $(IDENTIFY_SRCS)
 
 # * Object files
 OBJS = $(addprefix $(OBJ_DIR), $(SRCS:.cpp=.o))
 
 # ! RULES
-$(OBJ_DIR)%.o: $(BUREAUCRAT_DIR)%.cpp
+$(OBJ_DIR)%.o: $(IDENTIFY_DIR)%.cpp
 	@mkdir -p $(OBJ_DIR)
 	@$(MYCPP) $(MYCPPFLAGS) $(INCLUDES) -c $< -o $@
 

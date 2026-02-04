@@ -52,7 +52,7 @@ static void identify(Base &p)
 	// ? prints the actual type of the object referenced by p
 	try
 	{
-		dynamic_cast<A&>(p);
+		(void)dynamic_cast<A&>(p);
 		std::cout << YELLOW "Trying to convert 'Base &' to 'A &'...: "
 		<< GREEN "p is an instance of A\n" RESET;
 		return;
@@ -62,7 +62,7 @@ static void identify(Base &p)
 	}
 	try
 	{
-		dynamic_cast<B&>(p);
+		(void)dynamic_cast<B&>(p);
 		std::cout << YELLOW "Trying to convert 'Base &' to 'B &'...: "
 		<< BLUE "p is an instance of B\n" RESET;
 		return;
@@ -72,7 +72,7 @@ static void identify(Base &p)
 	}
 	try
 	{
-		dynamic_cast<C&>(p);
+		(void)dynamic_cast<C&>(p);
 		std::cout << YELLOW "Trying to convert 'Base &' to 'C &'...: "
 		<< MAGENTA "p is an instance of C\n" RESET;
 		return;
