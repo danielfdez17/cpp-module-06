@@ -74,7 +74,10 @@ run:
 	./$(NAME) 987654.23adsf
 	./$(NAME) 234789.984
 	./$(NAME) adsfadsfadf
-	./$(NAME) 123afadsF
+	./$(NAME) -+123afadsF
+	./$(NAME) ---123afadsF
+	./$(NAME) -123afadsF
+	./$(NAME) +123afadsF
 
 .PHONY: all obj clean fclean re run
 
