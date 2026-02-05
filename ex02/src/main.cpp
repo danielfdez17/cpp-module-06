@@ -85,7 +85,7 @@ static void identify(Base &p)
 
 int main(void)
 {
-	std::srand(std::rand());
+	std::srand(time(NULL));
 	Base *b1 = generate();
 	Base *b2 = generate();
 	Base *b3 = generate();
