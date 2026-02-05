@@ -59,25 +59,35 @@ re: fclean all
 run:
 	clear
 	@$(MAKE) re --no-print-directory
-	./$(NAME) 0
-	./$(NAME) 125.50
-	./$(NAME) nan
-	./$(NAME) 42.024f
-	./$(NAME) c
-	./$(NAME) nan
-	./$(NAME) +inf
-	./$(NAME) -inf
-	./$(NAME) nanf
-	./$(NAME) +inff
-	./$(NAME) -inff
-	./$(NAME) 45678
+# 	./$(NAME) ""
+# 	./$(NAME) 0
+# 	./$(NAME) b
+# 	./$(NAME) {
+# 	./$(NAME) 125.50
+# 	./$(NAME) 0
+# 	./$(NAME) nan
+# 	./$(NAME) -inf
+# 	./$(NAME) +inf
+# 	./$(NAME) nanf
+# 	./$(NAME) -inff
+# 	./$(NAME) +inff
+# 	./$(NAME) 18723
+# 	./$(NAME) 42.024f
+# 	./$(NAME) c
+# 	./$(NAME) nan
+# 	./$(NAME) +inf
+# 	./$(NAME) -inf
+# 	./$(NAME) nanf
+# 	./$(NAME) +inff
+# 	./$(NAME) -inff
+# 	./$(NAME) 45678
 	./$(NAME) 987654.23adsf
-	./$(NAME) 234789.984
-	./$(NAME) adsfadsfadf
-	./$(NAME) -+123afadsF
-	./$(NAME) ---123afadsF
-	./$(NAME) -123afadsF
-	./$(NAME) +123afadsF
+# 	./$(NAME) 234789.984
+# 	./$(NAME) adsfadsfadf
+# 	./$(NAME) -+123afadsF
+# 	./$(NAME) ---123afadsF
+# 	./$(NAME) -123afadsF
+# 	./$(NAME) +123afadsF
 
 .PHONY: all obj clean fclean re run
 

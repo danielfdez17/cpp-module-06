@@ -10,5 +10,7 @@
 #define MAGENTA "\033[35m"
 #define CYAN "\033[36m"
 #define WHITE "\033[37m"
+#define IMPOSSIBLE RED << "impossible"
+#define NON_DISPLAYABLE RED << "Non displayable"
 
 #endif // __UTILS_HPP__

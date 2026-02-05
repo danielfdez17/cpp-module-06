@@ -7,13 +7,13 @@
 
 ScalarConverter::ScalarConverter() {}
 
-ScalarConverter::ScalarConverter(const ScalarConverter& copy) 
+ScalarConverter::ScalarConverter(const ScalarConverter &copy)
 {
 	if (this != &copy)
 		*this = copy;
 }
 
-ScalarConverter& ScalarConverter::operator=(const ScalarConverter& copy)
+ScalarConverter &ScalarConverter::operator=(const ScalarConverter &copy)
 {
 	if (this != &copy)
 		*this = copy;
@@ -22,16 +22,26 @@ ScalarConverter& ScalarConverter::operator=(const ScalarConverter& copy)
 
 ScalarConverter::~ScalarConverter() {}
 
-static bool	isPseudo(std::string s)
+bool	isPseudoDouble(std::string s)
 {
-	return s == "nan" || s == "+inf" || s == "-inf"
-		|| s == "nanf" || s == "+inff" || s == "-inff";
+	return s == "nan" || s == "+inf" || s == "-inf";
 }
 
-static int countPrecission(std::string s)
+bool	isPseudoFloat(std::string s)
 {
-	size_t	dotPos = s.find('.');
-	size_t	i;
+	return s == "nanf" || s == "+inff" || s == "-inff";
+}
+
+bool isPseudo(std::string s)
+{
+	return isPseudoDouble(s) || isPseudoFloat(s);
+}
+
+// todo: 42.024
+// todo: 987654.23adsf
+int countPrecission(std::string s, size_t dotPos)
+{
+	size_t i;
 	if (dotPos == std::string::npos)
 		return 0;
 	for (i = dotPos + 1; i < s.size() - 1; i++)
@@ -41,41 +51,64 @@ static int countPrecission(std::string s)
 				--i;
 			break;
 		}
-	std::cout << YELLOW << "Precison: " << i - dotPos << "\n";
-	return (int)(i - dotPos);
+	// std::cout << YELLOW << "Precison: " << i - dotPos << "\n";
+	return (int)(i - dotPos - 1);
 }
 
-void	ScalarConverter::convert(std::string s)
+void ScalarConverter::convert(std::string s)
 {
-	double	value;
+	size_t size = s.size();
+	size_t pos;
+	if (size == 0)
+	{
+		std::cout << RED "The string should have at least one character\n" RESET;
+		return;
+	}
 	std::cout << YELLOW "Converting '" << s << "' ...\n" RESET;
 	// ? if single non-digit character, convert directly to its ASCII value
-	if (s.size() == 1 && !isdigit(s[0]))
+	pos = s.find('.');
+	if (s.size() == 1)
 	{
-		value = static_cast<double>(s[0]);
+		ScalarConverter::fromChar((s[0]));
 	}
-	// ? if this condition is not in the second place, the following condition will always be evaluated
-	// ? and pseudo numbers casts/conversions will be lost
 	else if (isPseudo(s))
 	{
-		value = std::strtod(s.c_str(), NULL);
+		if (isPseudoDouble(s))
+			fromDouble(std::strtod(s.c_str(), NULL), 0);
+		else if (isPseudoFloat(s))
+			fromFloat(std::strtof(s.c_str(), NULL), 0);
 	}
-	else if (s.find('.') == std::string::npos)
+	else if (pos != std::string::npos)
 	{
-		value = static_cast<double>(std::atoi(s.c_str()));
+		if (pos + 1 < size && s[pos + 1] == 'f')
+			fromFloat(std::strtof(s.c_str(), NULL), countPrecission(s, pos));
+		else
+			fromDouble(std::strtod(s.c_str(), NULL), countPrecission(s, pos));
 	}
-	else
-	{
-		value = std::strtod(s.c_str(), NULL);
-	}
-	ScalarConverter::toChar(value);
-	ScalarConverter::toInt(value);
-	ScalarConverter::toFloat(value, countPrecission(s));
-	ScalarConverter::toDouble(value, countPrecission(s));
+	else if (pos == std::string::npos)
+		fromInt(std::atoi(s.c_str()));
+	// ? if this condition is not in the second place, the following condition will always be evaluated
+	// ? and pseudo numbers casts/conversions will be lost
+	// else if (isPseudo(s))
+	// {
+	// 	value = std::strtod(s.c_str(), NULL);
+	// }
+	// else if (s.find('.') == std::string::npos)
+	// {
+	// 	value = static_cast<double>(std::atoi(s.c_str()));
+	// }
+	// else
+	// {
+	// 	value = std::strtod(s.c_str(), NULL);
+	// }
+	// ScalarConverter::toChar(value);
+	// ScalarConverter::toInt(value);
+	// ScalarConverter::toFloat(value, countPrecission(s));
+	// ScalarConverter::toDouble(value, countPrecission(s));
 	std::cout << "\n";
 }
 
-void	ScalarConverter::toChar(double value)
+void ScalarConverter::toChar(double value)
 {
 	std::cout << BLUE << "char: " << RESET;
 	if (std::isnan(value) || value < 0 || value > 127)
@@ -91,7 +124,7 @@ void	ScalarConverter::toChar(double value)
 		std::cout << "'" << static_cast<char>(value) << "'\n";
 	}
 }
-void	ScalarConverter::toInt(double value)
+void ScalarConverter::toInt(double value)
 {
 	std::cout << MAGENTA << "int: " << RESET;
 	if (std::isnan(value) || value > INT_MAX || value < INT_MIN)
@@ -103,7 +136,7 @@ void	ScalarConverter::toInt(double value)
 		std::cout << static_cast<int>(value) << "\n";
 	}
 }
-void	ScalarConverter::toFloat(double value, int precision)
+void ScalarConverter::toFloat(double value, int precision)
 {
 	std::cout << CYAN << "float: " << RESET;
 	int intValue = (int)value;
@@ -115,7 +148,7 @@ void	ScalarConverter::toFloat(double value, int precision)
 		std::cout << static_cast<float>(value);
 	std::cout << "f\n";
 }
-void	ScalarConverter::toDouble(double value, int precision)
+void ScalarConverter::toDouble(double value, int precision)
 {
 	std::cout << GREEN << "double: " << RESET;
 	int intValue = (int)value;
@@ -127,3 +160,129 @@ void	ScalarConverter::toDouble(double value, int precision)
 		std::cout << static_cast<double>(value) << "\n";
 }
 
+void ScalarConverter::fromChar(char c)
+{
+	{
+		std::cout << BLUE << "char: " << RESET;
+		if (isdigit(c))
+			c = c - '0';
+		if (c <= 0 || c >= 127)
+			std::cout << IMPOSSIBLE "\n" RESET;
+		else if (!isprint(c))
+			std::cout << NON_DISPLAYABLE "\n" RESET;
+		else
+			std::cout << "'" << c << "'\n";
+	}
+	{
+		std::cout << MAGENTA << "int: " << RESET << static_cast<int>(c) << "\n";
+	}
+	{
+		std::cout << CYAN << "float: " << RESET << static_cast<float>(c) << ".0f\n";
+	}
+	{
+		std::cout << GREEN << "double: " << RESET << static_cast<double>(c) << ".0";
+	}
+}
+
+void ScalarConverter::fromInt(int i)
+{
+	{
+		std::cout << BLUE << "char: " << RESET;
+		char c = static_cast<char>(i);
+		if (c <= 0 || c >= 127)
+			std::cout << IMPOSSIBLE "\n" RESET;
+		else if (!isprint(c))
+			std::cout << NON_DISPLAYABLE "\n" RESET;
+		else
+			std::cout << "'" << c << "'\n";
+	}
+	{
+		std::cout << MAGENTA << "int: " << RESET << i << "\n";
+	}
+	{
+		std::cout << CYAN << "float: " << RESET << i << ".0f\n";
+	}
+	{
+		std::cout << GREEN << "double: " << RESET << i << ".0\n";
+	}
+}
+
+void ScalarConverter::fromFloat(float f, int precision)
+{
+	int intValue = static_cast<int>(f);
+	double reminder = f - intValue;
+	{
+		std::cout << BLUE << "char: " << RESET;
+		char c = static_cast<char>(f);
+		if (c <= 0 || c >= 127)
+			std::cout << IMPOSSIBLE "\n" RESET;
+		else if (!isprint(c))
+			std::cout << NON_DISPLAYABLE "\n" RESET;
+		else
+			std::cout << "'" << c << "'\n";
+	}
+	{
+		std::cout << MAGENTA << "int: " RESET;
+		if (std::isnan(f) || std::isinf(f))
+			std::cout << RED "impossible" RESET << "\n";
+		else
+			std::cout << intValue << "\n";
+	}
+	std::cout << std::fixed << std::setprecision(precision);
+	{
+		std::cout << CYAN << "float: " << RESET;
+		if (reminder == 0.0f)
+			std::cout << f << ".0";
+		else
+			std::cout << f;
+		std::cout << "f\n";
+	}
+	{
+		std::cout << GREEN << "double: " << RESET;
+		std::cout << std::fixed << std::setprecision(precision);
+		if (reminder == 0.0)
+			std::cout << f << ".0";
+		else
+			std::cout << f;
+	}
+}
+
+void ScalarConverter::fromDouble(double d, int precision)
+{
+	int intValue = static_cast<int>(d);
+	double reminder = d - intValue;
+	{
+		std::cout << BLUE << "char: " << RESET;
+		char c = static_cast<char>(d);
+		if (c <= 0 || c >= 127)
+			std::cout << IMPOSSIBLE "\n" RESET;
+		else if (!isprint(c))
+			std::cout << NON_DISPLAYABLE "\n" RESET;
+		else
+			std::cout << "'" << c << "'\n";
+	}
+	{
+		std::cout << MAGENTA << "int: " RESET;
+		if (std::isnan(d) || std::isinf(d))
+			std::cout << RED "impossible" RESET << "\n";
+		else
+			std::cout << intValue << "\n";
+	}
+	std::cout << std::fixed << std::setprecision(precision);
+	{
+		std::cout << CYAN << "float: " << RESET;
+		if (reminder == 0.0f)
+			std::cout << d << ".0";
+		else
+			std::cout << d;
+		std::cout << "f\n";
+	}
+	{
+		std::cout << GREEN << "double: " << RESET;
+		std::cout << std::fixed << std::setprecision(precision);
+		if (reminder == 0.0)
+			std::cout << d << ".0";
+		else
+			std::cout << d;
+	}
+}
