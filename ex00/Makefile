@@ -71,8 +71,10 @@ run:
 # 	./$(NAME) nanf
 # 	./$(NAME) -inff
 # 	./$(NAME) +inff
-# 	./$(NAME) 18723
+	./$(NAME) 18723
 # 	./$(NAME) 42.024f
+# 	./$(NAME) 42.024
+# 	./$(NAME) 42.
 # 	./$(NAME) c
 # 	./$(NAME) nan
 # 	./$(NAME) +inf
@@ -81,7 +83,7 @@ run:
 # 	./$(NAME) +inff
 # 	./$(NAME) -inff
 # 	./$(NAME) 45678
-	./$(NAME) 987654.23adsf
+# 	./$(NAME) 987654.23adsf
 # 	./$(NAME) 234789.984
 # 	./$(NAME) adsfadsfadf
 # 	./$(NAME) -+123afadsF

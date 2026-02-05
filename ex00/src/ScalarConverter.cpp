@@ -22,36 +22,29 @@ ScalarConverter &ScalarConverter::operator=(const ScalarConverter &copy)
 
 ScalarConverter::~ScalarConverter() {}
 
-bool	isPseudoDouble(std::string s)
+static bool	isPseudoDouble(std::string s)
 {
 	return s == "nan" || s == "+inf" || s == "-inf";
 }
 
-bool	isPseudoFloat(std::string s)
+static bool	isPseudoFloat(std::string s)
 {
 	return s == "nanf" || s == "+inff" || s == "-inff";
 }
 
-bool isPseudo(std::string s)
+static bool isPseudo(std::string s)
 {
 	return isPseudoDouble(s) || isPseudoFloat(s);
 }
 
-// todo: 42.024
-// todo: 987654.23adsf
 int countPrecission(std::string s, size_t dotPos)
 {
 	size_t i;
 	if (dotPos == std::string::npos)
 		return 0;
-	for (i = dotPos + 1; i < s.size() - 1; i++)
+	for (i = dotPos + 1; i < s.size(); i++)
 		if (!isdigit(s[i]))
-		{
-			if ((i != dotPos + 1))
-				--i;
 			break;
-		}
-	// std::cout << YELLOW << "Precison: " << i - dotPos << "\n";
 	return (int)(i - dotPos - 1);
 }
 
@@ -74,37 +67,19 @@ void ScalarConverter::convert(std::string s)
 	else if (isPseudo(s))
 	{
 		if (isPseudoDouble(s))
-			fromDouble(std::strtod(s.c_str(), NULL), 0);
+			ScalarConverter::fromDouble(std::strtod(s.c_str(), NULL), 0);
 		else if (isPseudoFloat(s))
-			fromFloat(std::strtof(s.c_str(), NULL), 0);
+			ScalarConverter::fromFloat(std::strtof(s.c_str(), NULL), 0);
 	}
 	else if (pos != std::string::npos)
 	{
 		if (pos + 1 < size && s[pos + 1] == 'f')
-			fromFloat(std::strtof(s.c_str(), NULL), countPrecission(s, pos));
+			ScalarConverter::fromFloat(std::strtof(s.c_str(), NULL), countPrecission(s, pos));
 		else
-			fromDouble(std::strtod(s.c_str(), NULL), countPrecission(s, pos));
+			ScalarConverter::fromDouble(std::strtod(s.c_str(), NULL), countPrecission(s, pos));
 	}
 	else if (pos == std::string::npos)
-		fromInt(std::atoi(s.c_str()));
-	// ? if this condition is not in the second place, the following condition will always be evaluated
-	// ? and pseudo numbers casts/conversions will be lost
-	// else if (isPseudo(s))
-	// {
-	// 	value = std::strtod(s.c_str(), NULL);
-	// }
-	// else if (s.find('.') == std::string::npos)
-	// {
-	// 	value = static_cast<double>(std::atoi(s.c_str()));
-	// }
-	// else
-	// {
-	// 	value = std::strtod(s.c_str(), NULL);
-	// }
-	// ScalarConverter::toChar(value);
-	// ScalarConverter::toInt(value);
-	// ScalarConverter::toFloat(value, countPrecission(s));
-	// ScalarConverter::toDouble(value, countPrecission(s));
+		ScalarConverter::fromInt(std::atoi(s.c_str()));
 	std::cout << "\n";
 }
 
