@@ -83,58 +83,6 @@ void ScalarConverter::convert(std::string s)
 	std::cout << "\n";
 }
 
-void ScalarConverter::toChar(double value)
-{
-	std::cout << BLUE << "char: " << RESET;
-	if (std::isnan(value) || value < 0 || value > 127)
-	{
-		std::cout << RED "impossible\n" RESET;
-	}
-	else if (!isprint(static_cast<char>(value)))
-	{
-		std::cout << RED "Non displayable\n" RESET;
-	}
-	else
-	{
-		std::cout << "'" << static_cast<char>(value) << "'\n";
-	}
-}
-void ScalarConverter::toInt(double value)
-{
-	std::cout << MAGENTA << "int: " << RESET;
-	if (std::isnan(value) || value > INT_MAX || value < INT_MIN)
-	{
-		std::cout << RED "impossible\n" RESET;
-	}
-	else
-	{
-		std::cout << static_cast<int>(value) << "\n";
-	}
-}
-void ScalarConverter::toFloat(double value, int precision)
-{
-	std::cout << CYAN << "float: " << RESET;
-	int intValue = (int)value;
-	double reminder = value - intValue;
-	std::cout << std::fixed << std::setprecision(precision);
-	if (reminder == 0.0f)
-		std::cout << static_cast<float>(value) << ".0";
-	else
-		std::cout << static_cast<float>(value);
-	std::cout << "f\n";
-}
-void ScalarConverter::toDouble(double value, int precision)
-{
-	std::cout << GREEN << "double: " << RESET;
-	int intValue = (int)value;
-	double reminder = value - intValue;
-	std::cout << std::fixed << std::setprecision(precision);
-	if (reminder == 0.0)
-		std::cout << static_cast<double>(value) << ".0\n";
-	else
-		std::cout << static_cast<double>(value) << "\n";
-}
-
 void ScalarConverter::fromChar(char c)
 {
 	{
@@ -163,6 +111,7 @@ void ScalarConverter::fromInt(int i)
 {
 	{
 		std::cout << BLUE << "char: " << RESET;
+		// std::cout << (unsigned char)i << "\n";
 		char c = static_cast<char>(i);
 		if (c <= 0 || c >= 127)
 			std::cout << IMPOSSIBLE "\n" RESET;
